@@ -1,6 +1,7 @@
-from agents import Agent, AsyncOpenAI, OpenAIChatCompletionsModel, Runner, set_tracing_disabled
+from agents import Agent, OpenAIChatCompletionsModel, Runner, set_tracing_disabled
 from agents.run import RunConfig
 import os
+from openai import AsyncOpenAI
 from dotenv import load_dotenv
 import streamlit as st
 # import pandas as pd
@@ -14,22 +15,22 @@ set_tracing_disabled(disabled = True)
 
 load_dotenv()
 
-API_KEY = os.environ.get("GEMINI_API_KEY")
+API_KEY = os.environ.get("OPENROUTER_API_KEY")
 
 
 external_client = AsyncOpenAI(
     api_key=API_KEY,
-    base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+    base_url="https://openrouter.ai/api/v1"
 )
 
 model = OpenAIChatCompletionsModel(
-    model="gemini-2.0-flash",
+    model="arcee-ai/trinity-large-preview:free",
     openai_client = external_client,
 )
 
 config = RunConfig(
     model = model,
-    model_provider = external_client,
+    # model_provider = external_client,
     tracing_disabled = True,
 )
 
